@@ -45,9 +45,14 @@ module.exports = function(grunt) {
         undef: true,
         boss: true,
         eqnull: true,
-        browser: true
+        browser: true,
+        jquery: true
       },
-      globals: {}
+      globals: {
+        THREE: true,
+        d3: true,
+        Stats: true
+      }
     },
     uglify: {}
   });
