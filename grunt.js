@@ -20,6 +20,7 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: ['<banner:meta.banner>', '<file_strip_banner:lib/qt-controls.js>',
+          '<file_strip_banner:lib/boundingbox.js>',
           '<file_strip_banner:lib/viewer.js>'],
         dest: 'dist/pointspace.js'
       }
