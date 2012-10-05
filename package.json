@@ -1,0 +1,23 @@
+{
+	"name": "allover.js",
+	"title": "Allover.js",
+	"description": "In-browser pointcloud visualization",
+	"version": "0.1.0",
+	"homepage": "https://github.com/CRREL/allover.js",
+	"author": {
+		"name": "Pete Gadomski"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/CRREL/allover.js.git"
+	},
+	"bugs": {
+		"url": "https://github.com/CRREL/allover.js/issues"
+	},
+	"licenses": [],
+	"dependencies": {},
+	"devDependencies": {
+		"grunt": "~0.3.9"
+	},
+	"keywords": []
+}
