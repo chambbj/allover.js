@@ -5,9 +5,9 @@ module.exports = function(grunt) {
   grunt.initConfig({
     meta: {
       version: '0.1.0',
-      banner: '/*! pointspace.js - v<%= meta.version %> - ' +
+      banner: '/*! allover.js - v<%= meta.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        '* http://github.com/CRREL/pointspace.js\n' +
+        '* http://github.com/CRREL/allover.js\n' +
         '* Copyright (c) <%= grunt.template.today("yyyy") %> ' +
         'Pete Gadomski; Licensed MIT */'
     },
@@ -22,13 +22,13 @@ module.exports = function(grunt) {
         src: ['<banner:meta.banner>', '<file_strip_banner:lib/qt-controls.js>',
           '<file_strip_banner:lib/boundingbox.js>',
           '<file_strip_banner:lib/viewer.js>'],
-        dest: 'dist/pointspace.js'
+        dest: 'dist/allover.js'
       }
     },
     min: {
       dist: {
         src: ['<banner:meta.banner>', '<config:concat.dist.dest>'],
-        dest: 'dist/pointspace.min.js'
+        dest: 'dist/allover.min.js'
       }
     },
     watch: {
