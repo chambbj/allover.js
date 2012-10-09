@@ -37,7 +37,7 @@ Currently, there's no publicly accessible copy of allover.js, so to use you'll h
 
 The number in the point source url is the digit of the [GRiD](http://github.com/CRREL/GRiD) AOI pk that you're visualizing.
 
-In later iterations of allover.js the style names will be more consistent and customizable, but for now tou may have to add some styles to make your visualization look correct. Here's an example of what I've got running:
+In later iterations of allover.js the style names will be more consistent and customizable, but for now you may have to add some styles to make your visualization look correct. Here's an example of what I've got running:
 
 ```css
 body {
