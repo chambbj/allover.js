@@ -127,4 +127,4 @@ The built version (and a minified copy) will be put in the `dist/` subdirectory.
 Questions?
 ----------
 
-If you have any questions, please feel free to ask in #crrel in irc.freenode.net.
+If you have any questions, please feel free to ask in #pdal in irc.freenode.net.
