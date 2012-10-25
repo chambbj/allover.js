@@ -1,36 +1,73 @@
+<!doctype html>
 <html>
-<head>
-  <title>allover.js</title>
+  <head>
+    <title>allover.js</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-  <!-- dependencies -->
-  <script type="text/javascript" src="../vendor/jquery-1.8.2.js"></script>
-  <script type="text/javascript" src="../vendor/jquery-ui.js"></script>
-  <script type="text/javascript" src="../vendor/three.min.js"></script>
-  <script type="text/javascript" src="../vendor/stats.min.js"></script>
-  <script type="text/javascript" src="../vendor/d3.v2.js"></script>
-  <script type="text/javascript" src="../vendor/jquery.mousewheel.js"></script>
-  <script type="text/javascript" src="../vendor/colorbrewer.js"></script>
-  <script type="text/javascript" src="../dist/allover.js"></script>
+    <!-- dependencies -->
+    <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/colorbrewer.js"></script>
+    <script type="text/javascript" src="js/three.min.js"></script>
+    <script type="text/javascript" src="js/stats.min.js"></script>
+    <script type="text/javascript" src="js/d3.v2.js"></script>
+    <script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="js/allover.js"></script>
 
-  <!-- geojson -->
-  <script type="text/javascript">
-    var GeoJSON_for_loading = <%= GeoJSON %>;
-  </script>
+    <!-- styles -->
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+    <style>
+      #footer {
+        top: 680px;
+        right: 140px;
+        text-align: right;
+      }
 
-  <!-- styles -->
-  <link rel="stylesheet" type="text/css" href="../vendor/css/jquery-ui.css">
+      .hint {
+        position: absolute;
+        right: 0;
+        width: 1280px;
+        font-size: 12px;
+        color: #99;
+      }
+    </style>
+  </head>
+  <body>
 
-</head>
-<body>
+    <div id="viewer"></div>
+    <div id="footer">
+      <div>colorize: <select>
+        <optgroup label="Colorize by">
+          <option selected value="imagery">Imagery</option>
+          <option value="intensity">Intensity</option>
+          <option value="elevation">Elevation</option>
+          <option value="pcid">Point Cloud ID</option>
+          <option value="classification">Classification</option>
+        </optgroup>
+      </select></div>
+      <input type="button" id="resetButton" value="Reset View" />
+    <div>
 
-  <div id="viewer"></div>
+    <script type="text/javascript">
 
-  <!-- run it -->
-  <script type="text/javascript">
-    Allover.viewer.run({
-      data: GeoJSON_for_loading,
-      container: $('#viewer')
-    });
-  </script>
-</body>
+      $(document).ready(function() {
+        $.ajax({
+          url: '<%= url %>',
+          dataType: 'json',
+          context: this
+        }).done(function( json ) {
+          Allover.viewer.run({
+            data: json,
+            container: $('#viewer')
+          });
+        }).fail(function( xhr, error, status ) {
+          console.log(xhr);
+          console.log(error);
+          console.log(status);
+        });
+      });
+
+    </script>
+  </body>
 </html>
