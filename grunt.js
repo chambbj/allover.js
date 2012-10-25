@@ -33,7 +33,11 @@ module.exports = function(grunt) {
     },
     watch: {
       files: '<config:lint.files>',
-      tasks: 'lint qunit concat'
+      tasks: 'lint qunit concat',
+      viewer: {
+        files: ['<config:lint.files>', 'templates/viewer.html'],
+        tasks: 'lint qunit concat make-viewer'
+      }
     },
     jshint: {
       options: {
@@ -62,4 +66,20 @@ module.exports = function(grunt) {
   // Default task.
   grunt.registerTask('default', 'lint qunit concat min');
 
+  // Build a html visualization file and pipe to stdout
+  grunt.registerTask('make-viewer',
+    'Create a html file to visualize point data from a geojson file',
+    function(filepath) {
+      if (arguments.length === 0) {
+        filepath = 'fixtures/autzen.json';
+      }
+      var data = {
+        'GeoJSON': grunt.file.read(filepath)
+      };
+      var template = grunt.file.read('templates/viewer.html');
+      var html = grunt.template.process(template, data);
+      grunt.file.mkdir('tmp');
+      grunt.file.write('tmp/viewer.html', html);
+      grunt.log.write("Generated tmp/viewer.html\n");
+    });
 };

@@ -1,0 +1,35 @@
+<html>
+<head>
+  <title>allover.js</title>
+
+  <!-- dependencies -->
+  <script type="text/javascript" src="../vendor/jquery-1.8.2.js"></script>
+  <script type="text/javascript" src="../vendor/jquery-ui.js"></script>
+  <script type="text/javascript" src="../vendor/three.min.js"></script>
+  <script type="text/javascript" src="../vendor/stats.min.js"></script>
+  <script type="text/javascript" src="../vendor/d3.v2.js"></script>
+  <script type="text/javascript" src="../vendor/jquery.mousewheel.js"></script>
+  <script type="text/javascript" src="../dist/allover.js"></script>
+
+  <!-- geojson -->
+  <script type="text/javascript">
+    var GeoJSON_for_loading = <%= GeoJSON %>;
+  </script>
+
+  <!-- styles -->
+  <link rel="stylesheet" type="text/css" href="../vendor/css/jquery-ui.css">
+
+</head>
+<body>
+
+  <div id="viewer"></div>
+
+  <!-- run it -->
+  <script type="text/javascript">
+    Allover.viewer.run({
+      data: GeoJSON_for_loading,
+      container: $('#viewer')
+    });
+  </script>
+</body>
+</html>
