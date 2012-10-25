@@ -41,6 +41,7 @@ module.exports = function(grunt) {
     },
     jshint: {
       options: {
+	devel: true,
         curly: true,
         eqeqeq: true,
         immed: true,
@@ -66,20 +67,51 @@ module.exports = function(grunt) {
   // Default task.
   grunt.registerTask('default', 'lint qunit concat min');
 
+  // Other task chains
+  grunt.registerTask('make-viewer', 'lint qunit concat min make-viewer-html');
+
   // Build a html visualization file and pipe to stdout
-  grunt.registerTask('make-viewer',
+  grunt.registerTask('make-viewer-html',
     'Create a html file to visualize point data from a geojson file',
     function(filepath) {
       if (arguments.length === 0) {
         filepath = 'fixtures/autzen.json';
       }
+
+      var newfilepath = 'tmp/' + filepath;
+      grunt.file.copy(filepath, newfilepath);
+      grunt.log.write('Copied ' + filepath + ' to ' + newfilepath + '\n');
+
+      grunt.file.recurse('dist', function( abspath, rootdir, subdir, filename ) {
+        grunt.file.copy(abspath, 'tmp/js/' + filename);
+        grunt.log.write('Copied ' + abspath + ' to ' + 'tmp/js/' + filename + '\n');
+      });
+
+      grunt.file.recurse('vendor', function( abspath, rootdir, subdir, filename ) {
+        if (grunt.file.isMatch('*.js', filename)) {
+          grunt.file.copy(abspath, 'tmp/js/' + filename);
+          grunt.log.write('Copied ' + abspath + ' to ' + 'tmp/js/' + filename + '\n');
+        } else if (grunt.file.isMatch('*.css', filename)) {
+          grunt.file.copy(abspath, 'tmp/css/' + filename);
+          grunt.log.write('Copied ' + abspath + ' to ' + 'tmp/css/' + filename + '\n');
+        } else if (grunt.file.isMatch('*.png', filename)) {
+          grunt.file.copy(abspath, 'tmp/css/images/' + filename);
+          grunt.log.write('Copied ' + abspath + ' to ' + 'tmp/css/images/' + filename + '\n');
+        }
+
+      });
+
       var data = {
-        'GeoJSON': grunt.file.read(filepath)
+        'url': filepath
       };
+
       var template = grunt.file.read('templates/viewer.html');
+      grunt.log.write(template);
+      grunt.log.write(filepath);
       var html = grunt.template.process(template, data);
-      grunt.file.mkdir('tmp');
+      grunt.log.write(html);
       grunt.file.write('tmp/viewer.html', html);
-      grunt.log.write("Generated tmp/viewer.html\n");
-    });
+      grunt.log.write('Generated tmp/viewer.html\n');
+    }
+  );
 };

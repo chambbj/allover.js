@@ -19,57 +19,26 @@ allover.js is being developed with the following javascript dependencies:
 Usage
 -----
 
-Currently, there's no publicly accessible copy of allover.js, so to use you'll have to build your own copy (see below in 'How to build allover.js'). Once you've got yourself a copy, include the necessary JS files in your page then run the allover viewer, passing the point source url and the visualization DOM element:
+Currently there is no publicly acessible version of allover.js, so you will have to build a copy for yourself (see below).
 
-```html
-<div id="pointcloud-visualization"></div>
-<link rel="stylesheet" type="text/css" href="/css/jquery-ui-1.8.11.custom.css">
-<script src="/js/three.js"></script>
-<script src="/js/three_stats.js"></script>
-<script src="/js/d3.js"></script>
-<script src="/js/jquery-ui-1.8.11.custom.min.js"></script>
-<script src="/js/jquery.mousewheel.js"></script>
-<script src="/js/allover.js"></script>
-<script type="text/javascript">
-  Allover.viewer.run('/export/1/text/', $('#pointcloud-visualization'));
-</script>
+Once you've got your environment set up to build allover.js, you can create the example visualization html file that comes with allover.js.
+To create the html file, simply run:
+
+```bash
+grunt make-viewer
 ```
 
-The number in the point source url is the digit of the [GRiD](http://github.com/CRREL/GRiD) AOI pk that you're visualizing.
+This will build allover.js, and create a sample viewer html file in `tmp/viewer.html`.
+To view the viewer, you'll need to serve the html via http (since we request our point JSON over the network).
+One simple way is to use python's SimpleHTTPSever, serving files from the `tmp/` directory in the allover.js source:
 
-In later iterations of allover.js the style names will be more consistent and customizable, but for now you may have to add some styles to make your visualization look correct. Here's an example of what I've got running:
-
-```css
-body {
-  background:#eeeeee;
-  background-repeat:repeat-x;
-}
-.grid-progressBar-wrapper {
-  margin: 4px 8px;
-  float: right;
-}
-.grid-progressBar-status {
-  display: inline-block;
-}
-.grid-progressBar {
-  display: inline-block;
-  height: 8px;
-  width: 100px;
-  margin: 2px 0 0 4px;
-  position: relative;
-  border: 1px solid #ccc;
-}
-.grid-progressBar-color {
-  height: 8px;
-  display: block;
-  background-color: blue;
-}
-.grid-cameraControls, .grid-colorControls {
-  margin: 16px 8px;
-}
+```bash
+cd tmp/
+python -m SimpleHTTPServer
 ```
 
-**Note:** those `grid-` prefixes will be changing to `allover-` soon.
+This will start a HTTP server on port 8000 on your local host.
+Navigate to this url in your web browser, and you should see an allover.js viewer load in points!
 
 
 How to build allover.js
