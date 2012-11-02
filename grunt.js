@@ -55,6 +55,7 @@ module.exports = function(grunt) {
         jquery: true
       },
       globals: {
+        colorbrewer: true,
         THREE: true,
         d3: true,
         Stats: true
