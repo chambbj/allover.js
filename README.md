@@ -6,13 +6,13 @@ allover.js - pointcloud visualization
 Dependencies
 ------------
 
-allover.js is being developed with the following javascript dependencies:
+allover.js has the following javascript dependencies, located in `vendor/` in the source tree:
 
-* [jQuery v1.7.1](https://github.com/jquery/jquery/tree/1.7.1)
-* [jQuery UI v1.8.11](https://github.com/jquery/jquery-ui/tree/1.8.11) (custom build)
-* [three.js r50](https://github.com/mrdoob/three.js/tree/r50)
-* [three_stats.js r10](https://github.com/mrdoob/stats.js/tree/r10)
-* [d3.js v2.10.1](https://github.com/mbostock/d3/tree/v2.10.1)
+* [jQuery v1.8.2](https://github.com/jquery/jquery/tree/1.8.2)
+* [jQuery UI v1.9.0](https://github.com/jquery/jquery-ui/tree/1.9.0)
+* [three.js r52](https://github.com/mrdoob/three.js/tree/r52)
+* [three_stats.js r11](https://github.com/mrdoob/stats.js/tree/r11)
+* [d3.js v2.10.3](https://github.com/mbostock/d3/tree/v2.10.3)
 * [jquery.mousewheel.js v3.0.6](https://github.com/brandonaaron/jquery-mousewheel/tree/3.0.6)
 
 
