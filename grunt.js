@@ -66,10 +66,10 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint qunit concat min');
+  grunt.registerTask('default', 'describe lint qunit concat min');
 
   // Other task chains
-  grunt.registerTask('make-viewer', 'lint qunit concat min make-viewer-html');
+  grunt.registerTask('make-viewer', 'describe lint qunit concat min make-viewer-html');
 
   // Build a html visualization file and pipe to stdout
   grunt.registerTask('make-viewer-html',
@@ -115,4 +115,27 @@ module.exports = function(grunt) {
       grunt.log.write('Generated tmp/viewer.html\n');
     }
   );
+
+  // http://stackoverflow.com/questions/13130710/can-you-record-the-git-revision-with-gruntjs
+  grunt.registerTask("describe", "Describes current git commit", function (prop) {
+    var done = this.async();
+
+    grunt.log.write("Describe current commit: ");
+
+    grunt.utils.spawn({
+      cmd : "git",
+      args : [ "describe", "--tags", "--always", "--long", "--dirty" ]
+    }, function (err, result) {
+      if (err) {
+        grunt.log.error(err);
+        return done(false);
+      }
+
+      grunt.config(prop || "meta.version", result);
+
+      grunt.log.writeln(result.green);
+
+      done(result);
+    });
+  });
 };
