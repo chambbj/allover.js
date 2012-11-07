@@ -18,26 +18,32 @@
     <!-- styles -->
     <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
     <style>
-      #footer {
-        top: 680px;
-        right: 140px;
-        text-align: right;
+      #viewer {
+        position: absolute;
+        top: 0px; left: 200px;
+        height: 100%;
+        background: #000;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
       }
 
-      .hint {
+      #sidebar {
         position: absolute;
-        right: 0;
-        width: 1280px;
-        font-size: 12px;
-        color: #99;
+        top: 0px; left: 0px;
+        height: 100%; width: 200px;
+        background: #eee;
+      }
+
+      .sidebar_element {
+        margin: 10px;
       }
     </style>
   </head>
   <body>
 
-    <div id="viewer"></div>
-    <div id="footer">
-      <div id="colorize-select"><select>
+    <div id="sidebar">
+      <div class="sidebar_element" id="colorize-select"><select>
         <optgroup label="Colorize by...">
           <option selected value="imagery">Imagery</option>
           <option value="intensity">Intensity</option>
@@ -46,7 +52,7 @@
           <option value="classification">Classification</option>
         </optgroup>
       </select></div>
-      <div id="colorbrewer-select"><select>
+      <div class="sidebar_element" id="colorbrewer-select"><select>
         <optgroup label="Colorbrewer palette...">
           <option value="Purples">Purples</option>
           <option value="Blues">Blues</option>
@@ -59,7 +65,7 @@
           <option value="RdYlBu">RdYlBu</option>
         </optgroup>
       </select></div>
-      <div>
+      <div class="sidebar_element">
         <input type="button" id="resetButton" value="Reset View" />
       </div>
     </div>
