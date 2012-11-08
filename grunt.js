@@ -20,6 +20,8 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: ['<banner:meta.banner>', '<file_strip_banner:lib/qt-controls.js>',
+          '<file_strip_banner:lib/shader-profile.js>',
+          '<file_strip_banner:lib/profile-box.js>',
           '<file_strip_banner:lib/viewer.js>'],
         dest: 'dist/allover.js'
       }
@@ -55,6 +57,7 @@ module.exports = function(grunt) {
         jquery: true
       },
       globals: {
+        facebox: true,
         colorbrewer: true,
         THREE: true,
         d3: true,
@@ -95,6 +98,9 @@ module.exports = function(grunt) {
           grunt.file.copy(abspath, 'tmp/css/' + filename);
           grunt.log.write('Copied ' + abspath + ' to ' + 'tmp/css/' + filename + '\n');
         } else if (grunt.file.isMatch('*.png', filename)) {
+          grunt.file.copy(abspath, 'tmp/css/images/' + filename);
+          grunt.log.write('Copied ' + abspath + ' to ' + 'tmp/css/images/' + filename + '\n');
+        } else if (grunt.file.isMatch('*.gif', filename)) {
           grunt.file.copy(abspath, 'tmp/css/images/' + filename);
           grunt.log.write('Copied ' + abspath + ' to ' + 'tmp/css/images/' + filename + '\n');
         }
