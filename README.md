@@ -14,7 +14,7 @@ allover.js has the following javascript dependencies, located in `vendor/` in th
 * [three_stats.js r11](https://github.com/mrdoob/stats.js/tree/r11)
 * [d3.js v2.10.3](https://github.com/mbostock/d3/tree/v2.10.3)
 * [jquery.mousewheel.js v3.0.6](https://github.com/brandonaaron/jquery-mousewheel/tree/3.0.6)
-
+* [colorbrewer.js v2.10.3](https://github.com/mbostock/d3/tree/v2.10.3/lib/colorbrewer)
 
 Usage
 -----
