@@ -256,20 +256,130 @@
           closeImage : 'css/images/closelabel.png'
         });
 
-        $.ajax({
-          url: '<%= url %>',
-          dataType: 'json',
-          context: this
-        }).done(function( json ) {
-          Allover.viewer.run({
-            data: json,
-            container: $('#viewer')
+        var WIDTH = window.innerWidth,
+            HEIGHT = window.innerHeight,
+            VIEW_ANGLE = 45,
+            ASPECT = WIDTH / HEIGHT,
+            NEAR = 0.1,
+            FAR = 10000,
+            data = [],
+            container = $( '#viewer' ),
+            renderer,
+            camera,
+            scene,
+            controls,
+            pbox,
+            material,
+            loadingImg,
+            viewer,
+            stats = true,
+            options = {
+              progressBar: true,
+              buttonClass: 'btn',
+              loadingImgSrc: null
+            };
+
+        init();
+        animate();
+
+        function init() {
+
+          // setup "usual" three.js elements - renderer, camera, scene, controls...
+          renderer = new THREE.WebGLRenderer();
+          camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR );
+          scene = new THREE.Scene();
+          scene.add( camera );
+          controls = new THREE.QTControls( camera, container[0] );
+
+          // shader enables both vertex colors and clipping
+          var shader = Allover.ShaderUtils.lib[ 'profile' ];
+
+          // create the profile box
+          pbox = new Allover.ProfileBox( camera, container[0] );
+
+          material = new THREE.ShaderMaterial({
+            attributes: pbox.attributes,
+            uniforms: pbox.uniforms,
+            depthTest: true,
+            transparent: true,
+            vertexColors: THREE.VertexColors,
+            vertexShader: shader.vertexShader,
+            fragmentShader: shader.fragmentShader
           });
-        }).fail(function( xhr, error, status ) {
-          console.log(xhr);
-          console.log(error);
-          console.log(status);
-        });
+
+          if ( stats ) {
+
+            stats = new Stats();
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.top = '0px';
+            container.append( stats.domElement );
+
+          } else {
+
+            stats = null;
+
+          }
+
+          if ( options.loadingImgSrc ) {
+
+            loadingImg = $( '<img src="' + options.loadingImgSrc + '"></img>');
+            loadingImg.appendTo( container )
+                .attr( 'style', 'position: absolute; ' +
+                                'top: ' + HEIGHT / 2 + 'px; ' +
+                                'left: ' + WIDTH / 2 + 'px;' );
+
+          }
+
+          // create an empty viewer
+          viewer = new Allover.viewer( material, pbox, scene, controls, options );
+
+          // one or more GeoJSON files populated by grunt
+          var urls = [<%= url %>];
+
+          // for each file, attempt to load the GeoJSON point cloud
+          $.each( urls, function() {
+            $.ajax({
+              url: this,
+              dataType: 'json',
+              context: this
+            }).done(function( json ) {
+              data = json;
+              viewer.addData( data );
+            }).fail(function( xhr, error, status ) {
+              console.log(xhr);
+              console.log(error);
+              console.log(status);
+            });
+          });
+        };
+
+        function animate() {
+
+          // the requestAnimationFrame shim has been in three.js since r47, see the change log
+          // @see https://github.com/mrdoob/three.js/tree/r47
+          window.requestAnimationFrame( animate );
+
+          renderer.setSize( WIDTH, HEIGHT );
+          container.append( renderer.domElement );
+
+          render();
+
+        };
+
+        function render() {
+
+          renderer.render( scene, camera );
+          controls.update();
+
+          if ( pbox.profileBox !== undefined ) {
+
+            pbox.update();
+
+          }
+
+          stats.update();
+
+        };
       });
 
     </script>
