@@ -331,6 +331,7 @@
           // one or more GeoJSON files populated by grunt
           var urls = [<%= url %>];
 
+/*
           // for each file, attempt to load the GeoJSON point cloud
           $.each( urls, function() {
             $.ajax({
@@ -346,6 +347,33 @@
               console.log(status);
             });
           });
+*/
+
+          var counter = 0;
+          var speed = 2000;
+          function doWork() {
+            $.ajax({
+              url: urls[counter],
+              dataType: 'json',
+              context: this
+            }).done(function( json ) {
+              data = json;
+              viewer.addData( data );
+              counter += 1;
+              if ( counter < urls.length ) {
+                setTimeout( doWork, speed );
+              }
+            }).fail(function( xhr, error, status ) {
+              console.log(xhr);
+              console.log(error);
+              console.log(status);
+              counter += 1;
+              if ( counter < urls.length ) {
+                setTimeout( doWork, speed );
+              }
+            });
+          };
+          setTimeout( doWork, speed );
         };
 
         function animate() {
