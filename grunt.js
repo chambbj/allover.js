@@ -81,9 +81,29 @@ module.exports = function(grunt) {
         filepath = 'fixtures/autzen.json';
       }
 
+      var data = {
+        'url': []
+      };
+
       var newfilepath = 'tmp/' + filepath;
-      grunt.file.copy(filepath, newfilepath);
-      grunt.log.write('Copied ' + filepath + ' to ' + newfilepath + '\n');
+
+      if (grunt.file.isMatch('*.json', filepath)) {
+
+        // the specified path was a GeoJSON file, we will copy and proceed with only one file
+        grunt.file.copy(filepath, newfilepath);
+        grunt.log.write('Copied ' + filepath + ' to ' + newfilepath + '\n');
+        data.url = filepath;
+
+      } else {
+
+        // the specified path is not a GeoJSON file, we will recurse, looking for GeoJSONs
+        // and copying them for progressive loading
+        grunt.file.recurse(filepath, function( abspath, rootdir, subdir, filename ) {
+          grunt.file.copy(abspath, newfilepath + filename);
+          grunt.log.write('Copied ' + abspath + ' to ' + newfilepath + '\n');
+          data.url.push("'" + abspath + "'");
+        });
+     }
 
       grunt.file.recurse('dist', function( abspath, rootdir, subdir, filename ) {
         grunt.file.copy(abspath, 'tmp/js/' + filename);
@@ -106,10 +126,6 @@ module.exports = function(grunt) {
         }
 
       });
-
-      var data = {
-        'url': filepath
-      };
 
       var template = grunt.file.read('templates/viewer.html');
       grunt.log.write(template);
